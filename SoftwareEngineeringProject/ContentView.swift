@@ -60,6 +60,19 @@ struct ContentView: View {
                     .frame(width: 350, height: 3)
                     .foregroundColor(.white)
                     .offset(y: -160)
+                
+                Button{
+                    //Sign Up
+                } label: {
+                    Text("Sign Up")
+                        .bold()
+                        .frame(width: 200, height: 40)
+                        .background(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .fill(.linearGradient(colors: [.pink, .red], startPoint: .top, endPoint: .bottomTrailing))
+                        )
+                }
+                
             }
             .frame(width: 350)
         }
