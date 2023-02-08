@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct ContentView: View {
     
     //Variables
     @State private var username = ""
     @State private var password = ""
+    @State private var userIsLoggedIn = false
     
     var body: some View {
         
@@ -28,7 +30,7 @@ struct ContentView: View {
                 Text("MScoots")
                     .foregroundColor(.white)
                     .font(.system(size: 40, weight: .bold, design: .rounded))
-                    .offset(x: -90, y: -250)
+                    .offset(x: -90, y: -190)
                 TextField("Username", text: $username)
                     .foregroundColor(.white)
                     .textFieldStyle(.plain)
@@ -62,7 +64,7 @@ struct ContentView: View {
                     .offset(y: -160)
                 
                 Button{
-                    //Sign Up
+                    register()
                 } label: {
                     Text("Sign Up")
                         .bold()
@@ -71,13 +73,41 @@ struct ContentView: View {
                             RoundedRectangle(cornerRadius: 10, style: .continuous)
                                 .fill(.linearGradient(colors: [.pink, .red], startPoint: .top, endPoint: .bottomTrailing))
                         )
+                        .foregroundColor(.white)
                 }
                 
+                Button{
+                 login()
+                } label: {
+                    Text("Already have an account? Log In")
+                        .bold()
+                        .foregroundColor(.white)
+                        .padding(.top)
+                        
+                }
             }
             .frame(width: 350)
         }
         .ignoresSafeArea()
     }
+    
+    func login(){
+        Auth.auth().signIn(withEmail: username, password: password){ result, error in
+            if error != nil{
+                print(error!.localizedDescription)
+            }
+        }
+    }
+    
+    func register(){
+        Auth.auth().createUser(withEmail: username, password: password) {
+            result, error in if error != nil{
+                print(error!.localizedDescription)
+            }
+        }
+        
+    }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
